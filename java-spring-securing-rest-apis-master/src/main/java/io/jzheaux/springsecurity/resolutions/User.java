@@ -16,6 +16,9 @@ public class User implements Serializable {
     String username;
 
     @Column
+    String fullName;
+
+    @Column
     String password;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,6 +41,7 @@ public class User implements Serializable {
         this.id = user.id;
         this.username = user.username;
         this.password = user.password;
+        this.fullName = user.fullName;
         this.userAuthorities = user.userAuthorities;
         this.enabled = user.enabled;
     }
@@ -56,6 +60,14 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPassword() {

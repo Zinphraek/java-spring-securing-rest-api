@@ -1,5 +1,6 @@
 package io.jzheaux.springsecurity.resolutions;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserRepositoryJwtAuthenticationConverter authenticationConverter;
+
     public static void main(String[] args) {
         SpringApplication.run(ResolutionsApplication.class, args);
     }
@@ -23,8 +27,12 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests(authorize -> authorize
                         .anyRequest().authenticated())
-                .httpBasic(basic -> {})
-                .cors(cors -> {});
+                .httpBasic(basic -> {
+                })
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt().jwtAuthenticationConverter(this.authenticationConverter))
+                .cors(cors -> {
+                });
     }
 
     @Bean
@@ -38,11 +46,12 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                .maxAge(0) // if using local verification
+                        .maxAge(0) // if using local verification
                         .allowedOrigins("http://localhost:4000")
                         .allowedMethods("HEAD")
                         .allowedHeaders("Authorization");
             }
         };
     }
+
 }
