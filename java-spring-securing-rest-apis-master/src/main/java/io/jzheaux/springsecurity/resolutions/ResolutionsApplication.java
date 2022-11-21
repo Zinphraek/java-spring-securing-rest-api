@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import static org.springframework.http.HttpMethod.GET;
-
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SpringBootApplication
 public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
@@ -22,9 +20,7 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests(authorize -> authorize
-                        .mvcMatchers(GET, "/resolutions", "/resolution/**")
-                        .hasAnyAuthority("resolution:read")
-                        .anyRequest().hasAnyAuthority("resolution:write"))
+                        .anyRequest().authenticated())
                 .httpBasic(basic -> {
                 });
     }
