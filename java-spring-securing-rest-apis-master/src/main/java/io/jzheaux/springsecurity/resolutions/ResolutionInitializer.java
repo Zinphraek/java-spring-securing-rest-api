@@ -45,6 +45,8 @@ public class ResolutionInitializer implements SmartInitializingSingleton {
 				"{bcrypt}$2a$10$MywQEqdZFNIYnx.Ro/VQ0ulanQAl34B5xVjK2I/SDZNVG5tHQ08W");
 		haswrite.setFullName("Has Write");
 		haswrite.grantAuthority("resolution:write");
+		haswrite.addFriend(hasread);
+		haswrite.setSubscription("premium");
 		this.userRepository.save(haswrite);
 	}
 }
